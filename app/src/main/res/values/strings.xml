@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rutube1</string>
+    <string name="youtube_link_hint">Paste YouTube Link Here</string>
+    <string name="translate_video">Translate Video</string>
+    <string name="error_invalid_url">Invalid YouTube URL</string>
+    <string name="error_video_load">Failed to load video</string>
+    <string name="error_translation">Translation error</string>
+    <string name="error_speech_recognition">Speech recognition error</string>
+</resources>
