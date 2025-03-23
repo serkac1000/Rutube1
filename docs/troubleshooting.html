@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troubleshooting - MIT App Inventor Extension Migration</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-bug"></i> Troubleshooting Guide</h1>
+            <p>Solving common issues when migrating from PersonalImageClassifier to TeachableMachine.aix</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="migration-guide.html"><i class="fas fa-map"></i> Migration Guide</a></li>
+                <li><a href="troubleshooting.html"><i class="fas fa-bug"></i> Troubleshooting</a></li>
+                <li><a href="code-samples.html"><i class="fas fa-code"></i> Code Samples</a></li>
+                <li><a href="test-procedure.html"><i class="fas fa-vial"></i> Testing Procedure</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="card">
+            <h2><i class="fas fa-exclamation-circle"></i> Common Issues Overview</h2>
+            <p>When migrating from PersonalImageClassifier to TeachableMachine.aix, these are the most common issues developers encounter:</p>
+            
+            <ol>
+                <li>Video classifier fails to start</li>
+                <li>Classification results are not being received</li>
+                <li>Camera preview does not appear</li>
+                <li>Model loading failures</li>
+                <li>Incorrect initialization sequence</li>
+                <li>Permission issues</li>
+                <li>Event handler incompatibilities</li>
+            </ol>
+            
+            <p>The following sections provide detailed troubleshooting for each issue.</p>
+        </section>
+
+        <section class="card">
+            <h2><i class="fas fa-video-slash"></i> Video Classifier Not Starting</h2>
+            
+            <div class="callout error">
+                <h3>Issue: TeachableMachine extension not starting video classifier</h3>
+                <p>This is the most common issue when migrating from PersonalImageClassifier to TeachableMachine.aix.</p>
+            </div>
+            
+            <h3>Potential Causes and Solutions:</h3>
+            
+            <div class="collapsible-header"><i class="fas fa-plus-circle"></i> Incorrect Initialization Sequence</div>
+            <div class="collapsible-content">
+                <p>Unlike PersonalImageClassifier, TeachableMachine requires a specific initialization sequence:</p>
+                <ol>
+                    <li>First, call <code>UseModel(url)</code> with your Teachable Machine model URL</li>
+                    <li>Then, call <code>StartClassifier()</code> to begin the video classification</li>
+                </ol>
+                <p><strong>Solution:</strong> Ensure you're calling these methods in the correct order, and that you're using <code>StartClassifier()</code> instead of <code>StartCamera()</code>.</p>
+                <pre>
+TeachableMachine1.UseModel("https://teachablemachine.withgoogle.com/models/YOUR_MODEL/model.json")
+TeachableMachine1.StartClassifier()
+</pre>
+            </div>
+            
+            <div class="collapsible-header"><i class="fas fa-plus-circle"></i> Missing or Invalid Model URL</div>
+            <div class="collapsible-content">
+                <p>TeachableMachine extension requires a valid model URL from Google's Teachable Machine platform.</p>
+                <p><strong>Solution:</strong></p>
+                <ol>
+                    <li>Verify that you're using the correct model URL format (should end with "/model.json")</li>
+                    <li>Test the URL in a browser to ensure it's accessible</li>
+                    <li>Check for typos in the URL</li>
+                </ol>
+                <div class="callout info">
+                    <p><strong>Correct URL format:</strong> <code>https://teachablemachine.withgoogle.com/models/XXXXX/model.json</code></p>
+                </div>
+            </div>
+            
+            <div class="collapsible-header"><i class="fas fa-plus-circle"></i> Missing Camera Component</div>
+            <div class="collapsible-content">
+                <p>Unlike PersonalImageClassifier, TeachableMachine requires a separate Camera component to work properly.</p>
+                <p><strong>Solution:</strong></p>
+                <ol>
+                    <li>Add a Camera component from the Media section of the Palette</li>
+                    <li>Initialize the Camera with appropriate settings</li>
+                    <li>Ensure the Camera is started before initializing TeachableMachine</li>
+                </ol>
+                <pre>
+Camera1.UseFront = true
+Camera1.Initialize()
+</pre>
+            </div>
+            
+            <div class="collapsible-header"><i class="fas fa-plus-circle"></i> Missing Permissions</div>
+            <div class="collapsible-content">
+                <p>TeachableMachine requires camera and internet permissions to function properly.</p>
+                <p><strong>Solution:</strong></p>
+                <ol>
+                    <li>Ensure your app has requested and been granted camera permissions</li>
+                    <li>Check that internet access is enabled</li>
+                    <li>For Android 6.0+, implement runtime permission requests</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2><i class="fas fa-chart-line"></i> No Classification Results</h2>
+            
+            <div class="callout error">
+                <h3>Issue: Not receiving classification results from TeachableMachine</h3>
+                <p>The app appears to be working, but no classification results are being received.</p>
+            </div>
+            
+            <h3>Potential Causes and Solutions:</h3>
+            
+            <div class="collapsible-header"><i class="fas fa-plus-circle"></i> Incorrect Event Handler</div>
+            <div class="collapsible-content">
+                <p>TeachableMachine uses different event handlers than PersonalImageClassifier.</p>
+                <p><strong>Solution:</strong></p>
+                <ol>
+                    <li>Replace <code>GotResult</code> event handlers with <code>GotPrediction</code></li>
+                    <li>Update the parameter handling (TeachableMachine returns an array of predictions)</li>
+                </ol>
+                <div class="callout info">
+                    <p><strong>PersonalImageClassifier:</strong> <code>GotResult(result, confidence)</code></p>
+                    <p><strong>TeachableMachine:</strong> <code>GotPrediction(predictions)</code> where predictions is a list of class/confidence pairs</p>
+                </div>
+            </div>
+            
+            <div class="collapsible-header"><i class="fas fa-plus-circle"></i> Model Not Matching Expected Classes</div>
+            <div class="collapsible-content">
+                <p>Your Teachable Machine model might not have the same classes as your original PersonalImageClassifier model.</p>
+                <p><strong>Solution:</strong></p>
+                <ol>
+                    <li>Check the class names in your Teachable Machine model</li>
+                    <li>Update your app logic to handle the new class names</li>
+                    <li>Test with sample images to verify classification is working</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2><i class="fas fa-camera"></i> Camera Preview Issues</h2>
+            
+            <div class="callout error">
+                <h3>Issue: Camera preview does not appear or is blank</h3>
+                <p>The camera preview is not visible or shows a blank screen.</p>
+            </div>
+            
+            <h3>Potential Causes and Solutions:</h3>
+            
+            <div class="collapsible-header"><i class="fas fa-plus-circle"></i> Missing Camera Component Configuration</div>
+            <div class="collapsible-content">
+                <p>TeachableMachine requires proper Camera component setup.</p>
+                <p><strong>Solution:</strong></p>
+                <ol>
+                    <li>Ensure the Camera component is properly positioned and sized in your layout</li>
+                    <li>Check that the Camera is initialized before use</li>
+                    <li>Verify that the Camera component is visible (not hidden behind other components)</li>
+                </ol>
+            </div>
+            
+            <div class="collapsible-header"><i class="fas fa-plus-circle"></i> Camera Permission Denied</div>
+            <div class="collapsible-content">
+                <p>The app might not have camera permissions granted.</p>
+                <p><strong>Solution:</strong></p>
+                <ol>
+                    <li>Implement proper permission requests in your app</li>
+                    <li>Check the permission status at runtime</li>
+                    <li>Provide clear instructions to users about why camera access is needed</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2><i class="fas fa-cloud-download-alt"></i> Model Loading Issues</h2>
+            
+            <div class="callout error">
+                <h3>Issue: Model fails to load or takes too long</h3>
+                <p>The Teachable Machine model doesn't load correctly or takes too long to load.</p>
+            </div>
+            
+            <h3>Potential Causes and Solutions:</h3>
+            
+            <div class="collapsible-header"><i class="fas fa-plus-circle"></i> Incorrect Model URL</div>
+            <div class="collapsible-content">
+                <p>The URL to your Teachable Machine model might be incorrect.</p>
+                <p><strong>Solution:</strong></p>
+                <ol>
+                    <li>Double-check the model URL from Teachable Machine</li>
+                    <li>Ensure you're using the "image model" URL that ends with "/model.json"</li>
+                    <li>Test the URL in a browser to confirm it works</li>
+                </ol>
+            </div>
+            
+            <div class="collapsible-header"><i class="fas fa-plus-circle"></i> Network Connectivity Issues</div>
+            <div class="collapsible-content">
+                <p>TeachableMachine needs internet access to load the model from Google's servers.</p>
+                <p><strong>Solution:</strong></p>
+                <ol>
+                    <li>Check internet connectivity in your app</li>
+                    <li>Implement proper error handling for network failures</li>
+                    <li>Consider adding a loading indicator while the model is being downloaded</li>
+                </ol>
+            </div>
+            
+            <div class="collapsible-header"><i class="fas fa-plus-circle"></i> Model Too Large</div>
+            <div class="collapsible-content">
+                <p>Your Teachable Machine model might be too large, causing slow loading.</p>
+                <p><strong>Solution:</strong></p>
+                <ol>
+                    <li>Consider creating a smaller model with fewer classes or training examples</li>
+                    <li>Use the "Standard" model size option when exporting from Teachable Machine</li>
+                    <li>Implement loading state feedback to users</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2><i class="fas fa-tools"></i> Troubleshooting Checklist</h2>
+            
+            <p>Follow this systematic checklist to troubleshoot issues with your TeachableMachine implementation:</p>
+            
+            <ol class="steps">
+                <li>
+                    <h3>Verify Extension Import</h3>
+                    <p>Confirm that TeachableMachine.aix is properly imported and PersonalImageClassifier is removed.</p>
+                </li>
+                
+                <li>
+                    <h3>Check Model URL</h3>
+                    <p>Verify your Teachable Machine model URL is correct and accessible.</p>
+                    <ul>
+                        <li>URL should end with "/model.json"</li>
+                        <li>Test the URL in a browser</li>
+                    </ul>
+                </li>
+                
+                <li>
+                    <h3>Verify Initialization Sequence</h3>
+                    <p>Check that your initialization code follows the proper sequence:</p>
+                    <ol>
+                        <li>Initialize and start Camera component</li>
+                        <li>Call TeachableMachine's <code>UseModel(url)</code></li>
+                        <li>Call TeachableMachine's <code>StartClassifier()</code></li>
+                    </ol>
+                </li>
+                
+                <li>
+                    <h3>Check Event Handlers</h3>
+                    <p>Ensure you're using the correct event handlers:</p>
+                    <ul>
+                        <li>Replace <code>GotResult</code> with <code>GotPrediction</code></li>
+                        <li>Update parameter handling for the predictions list</li>
+                    </ul>
+                </li>
+                
+                <li>
+                    <h3>Verify Permissions</h3>
+                    <p>Check that your app has the necessary permissions:</p>
+                    <ul>
+                        <li>Camera permission</li>
+                        <li>Internet access permission</li>
+                    </ul>
+                </li>
+                
+                <li>
+                    <h3>Test Network Connectivity</h3>
+                    <p>Ensure your app has internet access to load the model.</p>
+                </li>
+                
+                <li>
+                    <h3>Check Component Visibility</h3>
+                    <p>Ensure your Camera component is visible and properly sized.</p>
+                </li>
+                
+                <li>
+                    <h3>Review Error Messages</h3>
+                    <p>Check the MIT App Inventor error console for specific error messages.</p>
+                </li>
+            </ol>
+        </section>
+
+        <div class="callout success">
+            <h3><i class="fas fa-lightbulb"></i> Advanced Troubleshooting Tip</h3>
+            <p>If you're still experiencing issues, try creating a minimal test project with just the TeachableMachine extension and a Camera component. This can help isolate whether the issue is with your migration approach or with other aspects of your app.</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 MIT App Inventor Extension Migration Guide</p>
+        </div>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

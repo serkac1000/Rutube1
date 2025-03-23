@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Samples - MIT App Inventor Extension Migration</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-code"></i> Code Samples</h1>
+            <p>Working blocks examples for TeachableMachine.aix implementation</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="migration-guide.html"><i class="fas fa-map"></i> Migration Guide</a></li>
+                <li><a href="troubleshooting.html"><i class="fas fa-bug"></i> Troubleshooting</a></li>
+                <li><a href="code-samples.html"><i class="fas fa-code"></i> Code Samples</a></li>
+                <li><a href="test-procedure.html"><i class="fas fa-vial"></i> Testing Procedure</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="card">
+            <h2><i class="fas fa-info-circle"></i> About These Code Samples</h2>
+            <p>These code samples are provided as a reference for implementing the TeachableMachine.aix extension in MIT App Inventor. They include common patterns and solutions for typical use cases.</p>
+            <p>The samples are presented as MIT App Inventor block code descriptions and pseudocode, which you can recreate in the MIT App Inventor Blocks Editor.</p>
+        </section>
+
+        <section class="card">
+            <h2><i class="fas fa-play"></i> Basic Initialization</h2>
+            
+            <div class="callout info">
+                <h3>Before vs. After Comparison</h3>
+                <p>Here's how initialization differs between PersonalImageClassifier and TeachableMachine:</p>
+            </div>
+            
+            <div class="tabs">
+                <div class="tab active" data-target="tab-personal">PersonalImageClassifier</div>
+                <div class="tab" data-target="tab-teachable">TeachableMachine</div>
+            </div>
+            
+            <div id="tab-personal" class="tab-content active">
+                <h3>PersonalImageClassifier Initialization</h3>
+                <pre>
+when Screen1.Initialize
+    call PersonalImageClassifier1.LoadModelFromAssets "model.txt"
+    call PersonalImageClassifier1.StartCamera
+</pre>
+                <p>Description of blocks:</p>
+                <ol>
+                    <li>When the Screen initializes, load a model from the app's assets</li>
+                    <li>Start the camera for classification</li>
+                </ol>
+            </div>
+            
+            <div id="tab-teachable" class="tab-content">
+                <h3>TeachableMachine Initialization</h3>
+                <pre>
+when Screen1.Initialize
+    call Camera1.Initialize
+    
+when Button1.Click
+    set TeachableMachine1.UseCamera to Camera1
+    call TeachableMachine1.UseModel "https://teachablemachine.withgoogle.com/models/YOUR_MODEL/model.json"
+    call TeachableMachine1.StartClassifier
+</pre>
+                <p>Description of blocks:</p>
+                <ol>
+                    <li>When the Screen initializes, initialize the Camera component</li>
+                    <li>When a button is clicked:</li>
+                    <li>Set the TeachableMachine to use the Camera component</li>
+                    <li>Set the model URL from Teachable Machine</li>
+                    <li>Start the classifier</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2><i class="fas fa-chart-pie"></i> Handling Classification Results</h2>
+            
+            <div class="tabs">
+                <div class="tab active" data-target="personal-results">PersonalImageClassifier</div>
+                <div class="tab" data-target="teachable-results">TeachableMachine</div>
+            </div>
+            
+            <div id="personal-results" class="tab-content active">
+                <h3>PersonalImageClassifier Results Handling</h3>
+                <pre>
+when PersonalImageClassifier1.GotResult result confidence
+    set Label1.Text to result
+    set Label2.Text to confidence
+    
+    if result = "cat" then
+        set Image1.Picture to "cat.png"
+    else if result = "dog" then
+        set Image1.Picture to "dog.png"
+    end if
+</pre>
+                <p>Description of blocks:</p>
+                <ol>
+                    <li>When the classifier returns a result and confidence:</li>
+                    <li>Display the result text in Label1</li>
+                    <li>Display the confidence in Label2</li>
+                    <li>Based on the result, show a corresponding image</li>
+                </ol>
+            </div>
+            
+            <div id="teachable-results" class="tab-content">
+                <h3>TeachableMachine Results Handling</h3>
+                <pre>
+when TeachableMachine1.GotPrediction predictions
+    set topClass to select list item item 1 select list item item 1 predictions
+    set topConfidence to select list item item 2 select list item item 1 predictions
+    
+    set Label1.Text to topClass
+    set Label2.Text to topConfidence
+    
+    if topClass = "cat" then
+        set Image1.Picture to "cat.png"
+    else if topClass = "dog" then
+        set Image1.Picture to "dog.png"
+    end if
+</pre>
+                <p>Description of blocks:</p>
+                <ol>
+                    <li>When the classifier returns predictions:</li>
+                    <li>Extract the top class (first item's class name)</li>
+                    <li>Extract the top confidence (first item's confidence)</li>
+                    <li>Display the class and confidence</li>
+                    <li>Based on the class, show a corresponding image</li>
+                </ol>
+                <div class="callout info">
+                    <p><strong>Note:</strong> TeachableMachine returns a list of predictions, where each prediction is a list containing [class, confidence]. The predictions are ordered by confidence (highest first).</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2><i class="fas fa-cogs"></i> Complete Implementation Example</h2>
+            
+            <h3>Full TeachableMachine Implementation</h3>
+            <pre>
+// Screen1.Initialize event
+when Screen1.Initialize
+    call Camera1.Initialize
+    
+// Button to start classification
+when StartButton.Click
+    set TeachableMachine1.UseCamera to Camera1
+    call TeachableMachine1.UseModel "https://teachablemachine.withgoogle.com/models/YOUR_MODEL/model.json"
+    set LoadingLabel.Visible to true
+    set StartButton.Enabled to false
+
+// When model is loaded successfully
+when TeachableMachine1.ModelReady
+    set LoadingLabel.Visible to false
+    call TeachableMachine1.StartClassifier
+    set StatusLabel.Text to "Classifier running..."
+
+// When classification produces results
+when TeachableMachine1.GotPrediction predictions
+    // Get the top prediction (highest confidence)
+    set topPrediction to select list item item 1 predictions
+    set className to select list item item 1 topPrediction
+    set confidence to select list item item 2 topPrediction
+    
+    // Format confidence as percentage
+    set confidencePercent to (confidence × 100) rounded to 2 places
+    
+    // Update UI
+    set ResultLabel.Text to className
+    set ConfidenceLabel.Text to join confidencePercent "%"
+    
+    // Highlight the result if confidence is high
+    if confidence > 0.7 then
+        set ResultLabel.TextColor to "green"
+    else
+        set ResultLabel.TextColor to "black"
+    end if
+
+// Button to stop classification
+when StopButton.Click
+    call TeachableMachine1.StopClassifier
+    set StatusLabel.Text to "Classifier stopped"
+    set StartButton.Enabled to true
+
+// Error handling
+when TeachableMachine1.Error message
+    set StatusLabel.Text to join "Error: " message
+    set StartButton.Enabled to true
+    set LoadingLabel.Visible to false
+</pre>
+                <p>Description of blocks:</p>
+                <ol>
+                    <li>Initialize the Camera when the Screen loads</li>
+                    <li>When Start button is clicked:</li>
+                    <ul>
+                        <li>Configure TeachableMachine to use the Camera</li>
+                        <li>Set the model URL</li>
+                        <li>Show loading indicator and disable the Start button</li>
+                    </ul>
+                    <li>When the model is loaded:</li>
+                    <ul>
+                        <li>Hide loading indicator</li>
+                        <li>Start the classifier</li>
+                        <li>Update status label</li>
+                    </ul>
+                    <li>When predictions are received:</li>
+                    <ul>
+                        <li>Extract the top class and confidence</li>
+                        <li>Format the confidence as a percentage</li>
+                        <li>Update the UI with results</li>
+                        <li>Change text color based on confidence level</li>
+                    </ul>
+                    <li>When Stop button is clicked:</li>
+                    <ul>
+                        <li>Stop the classifier</li>
+                        <li>Update status and re-enable the Start button</li>
+                    </ul>
+                    <li>Handle errors by displaying error messages</li>
+                </ol>
+        </section>
+
+        <section class="card">
+            <h2><i class="fas fa-lightbulb"></i> Advanced Usage Patterns</h2>
+            
+            <h3>Processing Multiple Classes</h3>
+            <pre>
+when TeachableMachine1.GotPrediction predictions
+    // Clear previous results
+    call ResultsList.Clear
+    
+    // Loop through all predictions
+    for each prediction in predictions
+        set className to select list item item 1 prediction
+        set confidence to select list item item 2 prediction
+        
+        // Only show predictions with reasonable confidence
+        if confidence > 0.2 then
+            set confidencePercent to (confidence × 100) rounded to 0 places
+            set resultText to join className ": " confidencePercent "%"
+            call ResultsList.AddItem resultText
+        end if
+    end for
+</pre>
+            <p>Description of blocks:</p>
+            <ol>
+                <li>When predictions are received, clear previous results</li>
+                <li>Loop through all predictions in the list</li>
+                <li>For each prediction, extract the class name and confidence</li>
+                <li>Filter out low-confidence predictions</li>
+                <li>Format the results and add them to a list component</li>
+            </ol>
+            
+            <h3>Saving Snapshots with Classifications</h3>
+            <pre>
+when TeachableMachine1.GotPrediction predictions
+    set topPrediction to select list item item 1 predictions
+    set className to select list item item 1 topPrediction
+    set confidence to select list item item 2 topPrediction
+    
+    // If high confidence, take a snapshot
+    if confidence > 0.8 then
+        call Camera1.TakePicture
+    end if
+
+when Camera1.AfterPicture image
+    // Save image with classification result
+    set fileName to join clock "+" ResultLabel.Text ".jpg"
+    call File1.SaveFile image fileName
+</pre>
+            <p>Description of blocks:</p>
+            <ol>
+                <li>When predictions are received, get the top prediction</li>
+                <li>If the confidence is high (>0.8), take a picture</li>
+                <li>When the picture is taken:</li>
+                <li>Create a filename using the current time and classification result</li>
+                <li>Save the file to the device</li>
+            </ol>
+        </section>
+
+        <div class="callout warning">
+            <h3><i class="fas fa-exclamation-triangle"></i> Important Notes</h3>
+            <ul>
+                <li>Always check for errors and provide user feedback</li>
+                <li>Consider performance implications when processing multiple frames</li>
+                <li>Always handle the case where no predictions match your criteria</li>
+                <li>Remember that TeachableMachine requires internet connection to load models</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 MIT App Inventor Extension Migration Guide</p>
+        </div>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

@@ -76,3 +76,16 @@ For runtime issues:
 2. Verify internet connectivity for video streaming
 3. Ensure microphone permissions are granted
 4. Validate that the YouTube URL is correctly formatted
+## Migration Guide for MIT App Inventor
+
+This repository includes a comprehensive migration guide for transitioning from PersonalImageClassifier.aix to TeachableMachine.aix extension in MIT App Inventor.
+
+### Guide Contents
+
+- Migration instructions and key differences
+- Troubleshooting common issues
+- Code samples for implementation
+- Detailed testing procedures
+- Downloadable migration materials
+
+Access the guide by opening the docs/index.html file in your browser.

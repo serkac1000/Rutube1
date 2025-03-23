@@ -1,0 +1,75 @@
+<svg width="700" height="300" xmlns="http://www.w3.org/2000/svg">
+    <!-- Table Header -->
+    <rect x="10" y="10" width="680" height="40" fill="#3f51b5" rx="5" ry="5"/>
+    <text x="350" y="35" text-anchor="middle" fill="white" font-weight="bold" font-family="Arial">Extension Comparison</text>
+    
+    <!-- Column Headers -->
+    <rect x="10" y="50" width="250" height="30" fill="#e8eaf6" rx="3" ry="3"/>
+    <text x="135" y="70" text-anchor="middle" font-family="Arial" font-weight="bold">Feature</text>
+    
+    <rect x="260" y="50" width="215" height="30" fill="#e8eaf6" rx="3" ry="3"/>
+    <text x="367.5" y="70" text-anchor="middle" font-family="Arial" font-weight="bold">PersonalImageClassifier</text>
+    
+    <rect x="475" y="50" width="215" height="30" fill="#e8eaf6" rx="3" ry="3"/>
+    <text x="582.5" y="70" text-anchor="middle" font-family="Arial" font-weight="bold">TeachableMachine</text>
+    
+    <!-- Row 1 -->
+    <rect x="10" y="80" width="250" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="20" y="103" font-family="Arial">Model Source</text>
+    
+    <rect x="260" y="80" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="270" y="103" font-family="Arial">Local training in App Inventor</text>
+    
+    <rect x="475" y="80" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="485" y="103" font-family="Arial">Google Teachable Machine</text>
+    
+    <!-- Row 2 -->
+    <rect x="10" y="115" width="250" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="20" y="138" font-family="Arial">Initialization Method</text>
+    
+    <rect x="260" y="115" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="270" y="138" font-family="Arial">StartCamera()</text>
+    
+    <rect x="475" y="115" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="485" y="138" font-family="Arial">StartClassifier()</text>
+    
+    <!-- Row 3 -->
+    <rect x="10" y="150" width="250" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="20" y="173" font-family="Arial">Model Loading</text>
+    
+    <rect x="260" y="150" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="270" y="173" font-family="Arial">LoadModelFromAssets()</text>
+    
+    <rect x="475" y="150" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="485" y="173" font-family="Arial">UseModel(URL)</text>
+    
+    <!-- Row 4 -->
+    <rect x="10" y="185" width="250" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="20" y="208" font-family="Arial">Result Events</text>
+    
+    <rect x="260" y="185" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="270" y="208" font-family="Arial">GotResult</text>
+    
+    <rect x="475" y="185" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="485" y="208" font-family="Arial">GotPrediction</text>
+    
+    <!-- Row 5 -->
+    <rect x="10" y="220" width="250" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="20" y="243" font-family="Arial">Camera Preview</text>
+    
+    <rect x="260" y="220" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="270" y="243" font-family="Arial">Integrated</text>
+    
+    <rect x="475" y="220" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="485" y="243" font-family="Arial">Separate component required</text>
+    
+    <!-- Row 6 -->
+    <rect x="10" y="255" width="250" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="20" y="278" font-family="Arial">Classification Type</text>
+    
+    <rect x="260" y="255" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="270" y="278" font-family="Arial">Image-only</text>
+    
+    <rect x="475" y="255" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="485" y="278" font-family="Arial">Image, Pose, Audio</text>
+</svg>

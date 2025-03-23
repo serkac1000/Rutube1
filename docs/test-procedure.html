@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing Procedure - MIT App Inventor Extension Migration</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-vial"></i> Testing Procedure</h1>
+            <p>Step-by-step verification process for your TeachableMachine implementation</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="migration-guide.html"><i class="fas fa-map"></i> Migration Guide</a></li>
+                <li><a href="troubleshooting.html"><i class="fas fa-bug"></i> Troubleshooting</a></li>
+                <li><a href="code-samples.html"><i class="fas fa-code"></i> Code Samples</a></li>
+                <li><a href="test-procedure.html"><i class="fas fa-vial"></i> Testing Procedure</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="card">
+            <h2><i class="fas fa-info-circle"></i> About This Testing Procedure</h2>
+            <p>This testing procedure provides a systematic approach to verify the correct functionality of your TeachableMachine implementation after migrating from PersonalImageClassifier.</p>
+            <p>Follow these steps in order to ensure that each component of your implementation is working correctly.</p>
+        </section>
+
+        <section class="card">
+            <h2><i class="fas fa-clipboard-check"></i> Pre-Testing Checklist</h2>
+            
+            <p>Before beginning the testing procedure, ensure you have:</p>
+            
+            <ul class="checklist">
+                <li>Completed the migration from PersonalImageClassifier to TeachableMachine</li>
+                <li>Imported the TeachableMachine.aix extension</li>
+                <li>Created and exported a model from Teachable Machine</li>
+                <li>Updated all initialization code and event handlers</li>
+                <li>Added appropriate error handling</li>
+                <li>Verified all permissions are properly requested</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2><i class="fas fa-tasks"></i> Step-by-Step Testing Procedure</h2>
+            
+            <ol class="steps">
+                <li>
+                    <h3>Verify Extension Import</h3>
+                    <p>First, ensure the TeachableMachine extension is properly imported:</p>
+                    <ol>
+                        <li>Open your project in MIT App Inventor</li>
+                        <li>Check the Components panel for TeachableMachine</li>
+                        <li>Verify that PersonalImageClassifier is no longer present</li>
+                    </ol>
+                    <div class="callout info">
+                        <p><strong>Expected Outcome:</strong> TeachableMachine appears in your Components panel and is properly recognized.</p>
+                    </div>
+                </li>
+                
+                <li>
+                    <h3>Test Camera Initialization</h3>
+                    <p>Next, test that the Camera component initializes correctly:</p>
+                    <ol>
+                        <li>Add debug messages to your Camera initialization code</li>
+                        <li>Run the app and grant camera permissions when prompted</li>
+                        <li>Verify that the camera preview appears on screen</li>
+                    </ol>
+                    <div class="callout info">
+                        <p><strong>Expected Outcome:</strong> Camera preview is visible and functioning properly.</p>
+                    </div>
+                </li>
+                
+                <li>
+                    <h3>Test Model Loading</h3>
+                    <p>Verify that the TeachableMachine model loads correctly:</p>
+                    <ol>
+                        <li>Add status messages for model loading steps</li>
+                        <li>Run the app and initiate model loading</li>
+                        <li>Check for successful loading messages</li>
+                        <li>Verify no errors appear in the logs</li>
+                    </ol>
+                    <div class="callout info">
+                        <p><strong>Expected Outcome:</strong> Model loads successfully with no errors.</p>
+                    </div>
+                    <div class="callout warning">
+                        <p><strong>Troubleshooting:</strong> If model fails to load, verify your internet connection and model URL.</p>
+                    </div>
+                </li>
+                
+                <li>
+                    <h3>Test Classification Initialization</h3>
+                    <p>Verify that the classifier starts properly:</p>
+                    <ol>
+                        <li>Add logging for the StartClassifier method call</li>
+                        <li>Run the app and start the classifier</li>
+                        <li>Check for any error messages</li>
+                    </ol>
+                    <div class="callout info">
+                        <p><strong>Expected Outcome:</strong> Classifier starts without errors.</p>
+                    </div>
+                </li>
+                
+                <li>
+                    <h3>Test Classification Results</h3>
+                    <p>Verify that the classifier correctly identifies objects:</p>
+                    <ol>
+                        <li>Point the camera at objects from your training classes</li>
+                        <li>Verify that the GotPrediction event fires</li>
+                        <li>Check that the correct class is identified</li>
+                        <li>Verify confidence values are reasonable</li>
+                    </ol>
+                    <div class="callout info">
+                        <p><strong>Expected Outcome:</strong> Objects are correctly classified with reasonable confidence.</p>
+                    </div>
+                </li>
+                
+                <li>
+                    <h3>Test Application Logic</h3>
+                    <p>Verify that your application correctly uses classification results:</p>
+                    <ol>
+                        <li>Test any conditional logic based on class identification</li>
+                        <li>Verify UI updates correctly based on classifications</li>
+                        <li>Test any actions triggered by specific classifications</li>
+                    </ol>
+                    <div class="callout info">
+                        <p><strong>Expected Outcome:</strong> Application behaves as expected based on classification results.</p>
+                    </div>
+                </li>
+                
+                <li>
+                    <h3>Test Error Handling</h3>
+                    <p>Verify that your application handles errors gracefully:</p>
+                    <ol>
+                        <li>Test with airplane mode to simulate network issues</li>
+                        <li>Test with invalid model URL</li>
+                        <li>Verify appropriate error messages are displayed</li>
+                        <li>Check that the application recovers gracefully</li>
+                    </ol>
+                    <div class="callout info">
+                        <p><strong>Expected Outcome:</strong> Application displays helpful error messages and doesn't crash.</p>
+                    </div>
+                </li>
+                
+                <li>
+                    <h3>Performance Testing</h3>
+                    <p>Evaluate the performance of your application:</p>
+                    <ol>
+                        <li>Observe classification speed and responsiveness</li>
+                        <li>Check memory usage over time</li>
+                        <li>Test battery impact during extended use</li>
+                    </ol>
+                    <div class="callout info">
+                        <p><strong>Expected Outcome:</strong> Application performs efficiently without significant lag or battery drain.</p>
+                    </div>
+                </li>
+            </ol>
+        </section>
+
+        <section class="card">
+            <h2><i class="fas fa-file-alt"></i> Testing Documentation Template</h2>
+            
+            <p>Use this template to document your testing results:</p>
+            
+            <pre>
+# TeachableMachine Implementation Test Results
+
+## Test Environment
+- Device: [device model]
+- Android Version: [Android version]
+- Network: [WiFi/4G/etc.]
+- TeachableMachine Extension Version: [version number]
+
+## Test Results
+
+### 1. Extension Import
+- Status: [Success/Fail]
+- Notes: [Any observations]
+
+### 2. Camera Initialization
+- Status: [Success/Fail]
+- Camera Preview Visible: [Yes/No]
+- Notes: [Any observations]
+
+### 3. Model Loading
+- Status: [Success/Fail]
+- Loading Time: [time in seconds]
+- Notes: [Any observations]
+
+### 4. Classification Initialization
+- Status: [Success/Fail]
+- Notes: [Any observations]
+
+### 5. Classification Results
+- Status: [Success/Fail]
+- Classes Tested: [list of classes]
+- Accuracy Observations: [notes about accuracy]
+- Notes: [Any observations]
+
+### 6. Application Logic
+- Status: [Success/Fail]
+- UI Updates Correctly: [Yes/No]
+- Actions Trigger Correctly: [Yes/No]
+- Notes: [Any observations]
+
+### 7. Error Handling
+- Network Error Test: [Pass/Fail]
+- Invalid URL Test: [Pass/Fail]
+- Recovery Test: [Pass/Fail]
+- Notes: [Any observations]
+
+### 8. Performance
+- Classification Speed: [Fast/Medium/Slow]
+- Memory Usage: [Low/Medium/High]
+- Battery Impact: [Low/Medium/High]
+- Notes: [Any observations]
+
+## Overall Assessment
+[Summary of test results and recommendations]
+
+## Issues Identified
+1. [Issue description]
+2. [Issue description]
+
+## Next Steps
+1. [Action item]
+2. [Action item]
+</pre>
+        </section>
+
+        <section class="card">
+            <h2><i class="fas fa-chart-line"></i> Benchmarking</h2>
+            
+            <p>To evaluate the performance difference between PersonalImageClassifier and TeachableMachine, perform these benchmark tests:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Test Method</th>
+                        <th>Expected Results</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Initialization Time</td>
+                        <td>Measure time from StartClassifier to first classification</td>
+                        <td>TeachableMachine may be slower due to model downloading</td>
+                    </tr>
+                    <tr>
+                        <td>Classification Speed</td>
+                        <td>Count classifications per minute</td>
+                        <td>Should be comparable between extensions</td>
+                    </tr>
+                    <tr>
+                        <td>Classification Accuracy</td>
+                        <td>Test with controlled objects, calculate % correct</td>
+                        <td>Depends on model quality, but should be comparable</td>
+                    </tr>
+                    <tr>
+                        <td>Memory Usage</td>
+                        <td>Monitor app memory in developer options</td>
+                        <td>TeachableMachine may use more memory</td>
+                    </tr>
+                    <tr>
+                        <td>Battery Impact</td>
+                        <td>Run for 30 minutes, note battery percentage drop</td>
+                        <td>Should be comparable between extensions</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <div class="callout success">
+            <h3><i class="fas fa-check-circle"></i> Final Verification</h3>
+            <p>After completing all tests, your app should:</p>
+            <ul>
+                <li>Successfully load and use the TeachableMachine model</li>
+                <li>Correctly classify objects from your training classes</li>
+                <li>Display classification results appropriately</li>
+                <li>Handle errors gracefully</li>
+                <li>Perform efficiently on target devices</li>
+            </ul>
+            <p>If all these criteria are met, your migration from PersonalImageClassifier to TeachableMachine.aix can be considered successful!</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 MIT App Inventor Extension Migration Guide</p>
+        </div>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

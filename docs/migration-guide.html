@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Migration Guide - MIT App Inventor Extension Migration</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-map"></i> Migration Guide</h1>
+            <p>Step-by-step instructions for migrating from PersonalImageClassifier to TeachableMachine.aix</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="migration-guide.html"><i class="fas fa-map"></i> Migration Guide</a></li>
+                <li><a href="troubleshooting.html"><i class="fas fa-bug"></i> Troubleshooting</a></li>
+                <li><a href="code-samples.html"><i class="fas fa-code"></i> Code Samples</a></li>
+                <li><a href="test-procedure.html"><i class="fas fa-vial"></i> Testing Procedure</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="card">
+            <h2><i class="fas fa-exchange-alt"></i> Understanding the Differences</h2>
+            <p>Before migrating from PersonalImageClassifier to TeachableMachine.aix, it's important to understand the key differences between these extensions:</p>
+            
+            <div class="image-container">
+                <svg width="700" height="300" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Table Header -->
+                    <rect x="10" y="10" width="680" height="40" fill="#3f51b5" rx="5" ry="5"/>
+                    <text x="350" y="35" text-anchor="middle" fill="white" font-weight="bold" font-family="Arial">Extension Comparison</text>
+                    
+                    <!-- Column Headers -->
+                    <rect x="10" y="50" width="250" height="30" fill="#e8eaf6" rx="3" ry="3"/>
+                    <text x="135" y="70" text-anchor="middle" font-family="Arial" font-weight="bold">Feature</text>
+                    
+                    <rect x="260" y="50" width="215" height="30" fill="#e8eaf6" rx="3" ry="3"/>
+                    <text x="367.5" y="70" text-anchor="middle" font-family="Arial" font-weight="bold">PersonalImageClassifier</text>
+                    
+                    <rect x="475" y="50" width="215" height="30" fill="#e8eaf6" rx="3" ry="3"/>
+                    <text x="582.5" y="70" text-anchor="middle" font-family="Arial" font-weight="bold">TeachableMachine</text>
+                    
+                    <!-- Row 1 -->
+                    <rect x="10" y="80" width="250" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+                    <text x="20" y="103" font-family="Arial">Model Source</text>
+                    
+                    <rect x="260" y="80" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+                    <text x="270" y="103" font-family="Arial">Local training in App Inventor</text>
+                    
+                    <rect x="475" y="80" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+                    <text x="485" y="103" font-family="Arial">Google Teachable Machine</text>
+                    
+                    <!-- Row 2 -->
+                    <rect x="10" y="115" width="250" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+                    <text x="20" y="138" font-family="Arial">Initialization Method</text>
+                    
+                    <rect x="260" y="115" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+                    <text x="270" y="138" font-family="Arial">StartCamera()</text>
+                    
+                    <rect x="475" y="115" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+                    <text x="485" y="138" font-family="Arial">StartClassifier()</text>
+                    
+                    <!-- Row 3 -->
+                    <rect x="10" y="150" width="250" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+                    <text x="20" y="173" font-family="Arial">Model Loading</text>
+                    
+                    <rect x="260" y="150" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+                    <text x="270" y="173" font-family="Arial">LoadModelFromAssets()</text>
+                    
+                    <rect x="475" y="150" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+                    <text x="485" y="173" font-family="Arial">UseModel(URL)</text>
+                    
+                    <!-- Row 4 -->
+                    <rect x="10" y="185" width="250" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+                    <text x="20" y="208" font-family="Arial">Result Events</text>
+                    
+                    <rect x="260" y="185" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+                    <text x="270" y="208" font-family="Arial">GotResult</text>
+                    
+                    <rect x="475" y="185" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+                    <text x="485" y="208" font-family="Arial">GotPrediction</text>
+                    
+                    <!-- Row 5 -->
+                    <rect x="10" y="220" width="250" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+                    <text x="20" y="243" font-family="Arial">Camera Preview</text>
+                    
+                    <rect x="260" y="220" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+                    <text x="270" y="243" font-family="Arial">Integrated</text>
+                    
+                    <rect x="475" y="220" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+                    <text x="485" y="243" font-family="Arial">Separate component required</text>
+                    
+                    <!-- Row 6 -->
+                    <rect x="10" y="255" width="250" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+                    <text x="20" y="278" font-family="Arial">Classification Type</text>
+                    
+                    <rect x="260" y="255" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+                    <text x="270" y="278" font-family="Arial">Image-only</text>
+                    
+                    <rect x="475" y="255" width="215" height="35" fill="white" stroke="#ddd" stroke-width="1"/>
+                    <text x="485" y="278" font-family="Arial">Image, Pose, Audio</text>
+                </svg>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2><i class="fas fa-tasks"></i> Migration Checklist</h2>
+            <p>Follow this checklist to ensure a smooth migration from PersonalImageClassifier to TeachableMachine.aix:</p>
+            
+            <ul class="checklist">
+                <li>Import the TeachableMachine.aix extension</li>
+                <li>Create a Teachable Machine model on Google's platform</li>
+                <li>Update component initialization methods</li>
+                <li>Add a camera component if not already present</li>
+                <li>Update event handlers for classification results</li>
+                <li>Update any model loading/saving functionality</li>
+                <li>Update permissions in the app manifest</li>
+                <li>Test all functionality after migration</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2><i class="fas fa-map-signs"></i> Step-by-Step Migration Process</h2>
+            
+            <ol class="steps">
+                <li>
+                    <h3>Import the TeachableMachine Extension</h3>
+                    <p>First, you need to remove the PersonalImageClassifier extension and import the TeachableMachine.aix extension to your project:</p>
+                    <ol>
+                        <li>In MIT App Inventor, click on "Extensions" in the Palette panel</li>
+                        <li>Click "Remove Extension" and select PersonalImageClassifier</li>
+                        <li>Click "Import Extension" and select the TeachableMachine.aix file</li>
+                        <li>Confirm the import when prompted</li>
+                    </ol>
+                </li>
+                
+                <li>
+                    <h3>Create a Teachable Machine Model</h3>
+                    <p>Unlike PersonalImageClassifier, TeachableMachine uses models created on Google's Teachable Machine platform:</p>
+                    <ol>
+                        <li>Go to <a href="https://teachablemachine.withgoogle.com/" target="_blank">https://teachablemachine.withgoogle.com/</a></li>
+                        <li>Create a new Image Project</li>
+                        <li>Train your model with the necessary classes</li>
+                        <li>Export the model and copy the model URL (NOT the "Tensorflow.js" URL)</li>
+                    </ol>
+                    <div class="callout info">
+                        <p><strong>Note:</strong> Make sure to use the "image model" URL that ends with "/model.json" when exporting your model.</p>
+                    </div>
+                </li>
+                
+                <li>
+                    <h3>Add Camera Component</h3>
+                    <p>Unlike PersonalImageClassifier, TeachableMachine needs a separate Camera component:</p>
+                    <ol>
+                        <li>Drag a Camera component from the Media section of the Palette</li>
+                        <li>Set the Camera's properties (UseFront, etc.) as needed</li>
+                    </ol>
+                </li>
+                
+                <li>
+                    <h3>Update Initialization Code</h3>
+                    <p>The initialization process is different for TeachableMachine:</p>
+                    <div class="callout warning">
+                        <p><strong>Important:</strong> TeachableMachine uses <code>StartClassifier()</code> instead of <code>StartCamera()</code>, and requires calling <code>UseModel(url)</code> with your Teachable Machine model URL.</p>
+                    </div>
+                </li>
+                
+                <li>
+                    <h3>Update Event Handlers</h3>
+                    <p>TeachableMachine uses different event handlers than PersonalImageClassifier:</p>
+                    <ul>
+                        <li>Replace <code>GotResult</code> event handlers with <code>GotPrediction</code></li>
+                        <li>Update the parameter handling (TeachableMachine returns an array of predictions)</li>
+                    </ul>
+                </li>
+                
+                <li>
+                    <h3>Update Permissions</h3>
+                    <p>Ensure your app has the necessary permissions:</p>
+                    <ul>
+                        <li>Camera permission</li>
+                        <li>Internet access permission</li>
+                    </ul>
+                </li>
+                
+                <li>
+                    <h3>Test the Migrated App</h3>
+                    <p>Thoroughly test your migrated app using the test procedure outlined in the Testing tab.</p>
+                </li>
+            </ol>
+        </section>
+
+        <section class="card">
+            <h2><i class="fas fa-code-branch"></i> Key API Differences</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>PersonalImageClassifier</th>
+                        <th>TeachableMachine</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Starting the classifier</td>
+                        <td>StartCamera()</td>
+                        <td>StartClassifier()</td>
+                    </tr>
+                    <tr>
+                        <td>Loading a model</td>
+                        <td>LoadModelFromAssets("model.txt")</td>
+                        <td>UseModel("https://teachablemachine.withgoogle.com/models/YOUR_MODEL/model.json")</td>
+                    </tr>
+                    <tr>
+                        <td>Classification result event</td>
+                        <td>GotResult(result, confidence)</td>
+                        <td>GotPrediction(predictions)</td>
+                    </tr>
+                    <tr>
+                        <td>Stopping the classifier</td>
+                        <td>StopCamera()</td>
+                        <td>StopClassifier()</td>
+                    </tr>
+                    <tr>
+                        <td>Taking a picture</td>
+                        <td>TakePicture()</td>
+                        <td>Not available (use Camera component)</td>
+                    </tr>
+                    <tr>
+                        <td>Classifying an image</td>
+                        <td>ClassifyImageData(image)</td>
+                        <td>ClassifyImageData(image)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <div class="callout info">
+            <h3><i class="fas fa-lightbulb"></i> Tips for Successful Migration</h3>
+            <ul>
+                <li>Make a backup of your project before starting the migration</li>
+                <li>Test each component individually after updating</li>
+                <li>Use the debugging console to track issues</li>
+                <li>Ensure your Teachable Machine model URL is correct and accessible</li>
+                <li>Check that your Camera component is properly initialized</li>
+                <li>Verify internet connectivity for model loading</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 MIT App Inventor Extension Migration Guide</p>
+        </div>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
